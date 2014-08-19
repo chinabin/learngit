@@ -1,0 +1,14 @@
+this is a file to record my note about git.
+
+1.how to push to git repository
+	a.git init on local directory
+	b.vim you code
+	c.git add the file you add or edit
+	d.git commit file in staged area
+	e.git remote add origin https://github.com/chinabin/learngit.git
+	f.git push -u origin master
+origin is the name of repository,master is your name of local repository
+
+2.how to push an existing repository
+	a.git remote add origin https://github.com/chinabin/learngit.git
+	b.git push -u origin master
