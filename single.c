@@ -21,7 +21,7 @@ int readfile(char *filename,int size)
 
 int main(int argc,int argv[])
 {
-	char filename[] = "/home/tab/leargit/crashdump.dmp";
+	char filename[] = "C:/Users/Nibnat/Desktop/xixi/crashdump.dmp";
 	int size=1;
 	printf("***********************************************************************************************\n");
 	readfile(filename,size);
