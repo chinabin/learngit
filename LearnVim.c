@@ -10,13 +10,24 @@ int GetNumOfNote()
     return nNumOfAnswer == nNumOfQuestion ? nNumOfQuestion : -1;
 }
 
+void Check()
+{
+    int nNumOfRandom = sizeof( cQuestion ) / sizeof( cQuestion[0] );
+    int i;
+    for( i = 0 ; i < nNumOfRandom ; i++ )
+    {
+        printf("%s\t%s\n",cQuestion[i],cAnswer[i]);
+    }
+    
+}
+
 void GetRandow( int nNumOfRandom , int nUperBound , int *pResult )
 {
     int i = 0;
     for( i = 0 ; i < nNumOfRandom ; i++ )
     {
         //made by myself
-       srand( i * 2737 );
+       srand( i * 2737 * nUperBound );
        pResult[ i ] = rand() % nUperBound;
     }
 }
@@ -76,6 +87,7 @@ void SeeWhatYouLearn()
 
 int main()
 {
+    check();
     int tmp[10];
     SeeWhatYouLearn();
     return 0;
