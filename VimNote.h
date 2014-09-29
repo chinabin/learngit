@@ -7,16 +7,6 @@ char cQuestion[][64] = {
     "past register",
     "add a new blank line below",
     "add a new blank line up",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
-    "this is a test , answer is A",
 };
 
 char cAnswer[][64] = {
@@ -28,15 +18,5 @@ char cAnswer[][64] = {
     "\"+",
     "o",
     "O",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
-    "A",
 };
 

@@ -16,7 +16,7 @@ void Check()
     int i;
     for( i = 0 ; i < nNumOfRandom ; i++ )
     {
-        printf("%s\t%s\n",cQuestion[i],cAnswer[i]);
+        printf("%-64s\t%s\n",cQuestion[i],cAnswer[i]);
     }
     
 }
@@ -41,7 +41,8 @@ void SeeWhereYouWrong( int nWrongNum , int *pWhereYouWrong )
         int i = 0;
         for( i = 0 ; i < nWrongNum ; i++ )
         {
-            printf("%s\n%s\n\n" , cQuestion[ pWhereYouWrong[ i ] ] , cAnswer[ pWhereYouWrong[ i ] ] );
+            if( pWhereYouWrong[i] != -1 )
+                printf("%s\n%s\n\n" , cQuestion[ pWhereYouWrong[ i ] ] , cAnswer[ pWhereYouWrong[ i ] ] );
         }
     }
     else
@@ -68,7 +69,7 @@ void SeeWhatYouLearn()
     }
     int nNumOfQuestion = nNum / 2;
     int ResultOfRand[nNumOfQuestion];
-    int Wrong[nNumOfQuestion] , nWrong = 0 , i = 0;
+    int Wrong[nNumOfQuestion] , nWrong = 0 , i = 0 ;
     char cMyInput[ 64 ] = {'\0'};
 
     GetRandow( nNumOfQuestion , nNum - 1 , ResultOfRand );
@@ -78,16 +79,15 @@ void SeeWhatYouLearn()
         scanf("%s",cMyInput);
         if( AnsCmp( cAnswer[ ResultOfRand[ i ] ] , cMyInput ) )
         {
-            Wrong[ i ] = ResultOfRand[ i ];
-            nWrong++;
+            Wrong[ nWrong++ ] = ResultOfRand[ i ];
         }
     }
-    SeeWhereYouWrong( nWrong , ResultOfRand );
+    SeeWhereYouWrong( nWrong , Wrong );
 }
 
 int main()
 {
-    check();
+    Check();
     int tmp[10];
     SeeWhatYouLearn();
     return 0;
