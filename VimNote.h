@@ -1,3 +1,4 @@
+#include<time.h>
 char cQuestion[][64] = {
     //simple move
     "move right" , 

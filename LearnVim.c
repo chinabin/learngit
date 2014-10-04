@@ -23,11 +23,11 @@ void ShowAll()
 void GetRandow( int nNumOfRandom , int nUperBound , int *pResult ,int seed )
 {
     int i = 0;
+    srand((unsigned int)time(NULL));
     for( i = 0 ; i < nNumOfRandom ; i++ )
     {
-        //made by myself
-       srand( i * seed * nUperBound * seed );
        pResult[ i ] = rand() % nUperBound;
+       printf("%d\n",pResult[i]);
     }
 }
 
@@ -136,6 +136,7 @@ int main(int argc , char* argv[])
                     seed = StrToInt(argv[i+1]);
                     SeeWhatYouLearn(seed);
                 default:
+                    SeeWhatYouLearn(0);
                     break;
             }
         }
