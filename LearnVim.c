@@ -1,7 +1,6 @@
-#include <stdio.h>
-#include <string.h>
 #include "VimNote.h"
 
+// get the count of NOTES
 int GetNumOfNote()
 {
     int nNumOfQuestion = sizeof( cQuestion ) / sizeof( cQuestion[0] );
@@ -9,25 +8,50 @@ int GetNumOfNote()
     return nNumOfAnswer == nNumOfQuestion ? nNumOfQuestion : -1;
 }
 
-void ShowAll()
+void ShowAll( int flag )
 {
     int nNumOfRandom = sizeof( cQuestion ) / sizeof( cQuestion[0] );
     int i;
     for( i = 0 ; i < nNumOfRandom ; i++ )
     {
-        printf("%-64s\t%s\n",cQuestion[i],cAnswer[i]);
+        if( !flag )
+            printf("%-64s\t%s\n",cQuestion[i],cAnswer[i]);
+        else if( flag == 1 )
+            printf("%d %s\n", i + 1 ,cAnswer[i]);
+        else if( flag == 2 )
+            printf("%d %s\n", i + 1 ,cQuestion[i]);
+        else
+        {
+            printf("FUCK!DONT YOU FUCK KIDDING ME!!!\n");
+            break;
+        }
     }
     
 }
 
 void GetRandow( int nNumOfRandom , int nUperBound , int *pResult ,int seed )
 {
-    int i = 0;
+    int i = 0, j;
+    int pTmp[ nUperBound + 1 ];
     srand((unsigned int)time(NULL));
+
+    for( i = 0 ; i < nUperBound ; i++ )
+    {
+        pTmp[ i ] = -1;
+    }
+    for( i = 0 ; i < nUperBound ; )
+    {
+        j = rand() % nUperBound;
+        if( j >= 0 && pTmp[ j ] == -1 )
+        {
+           pTmp[ j ] = i ;
+           i++;
+        }
+    }
     for( i = 0 ; i < nNumOfRandom ; i++ )
     {
-       pResult[ i ] = rand() % nUperBound;
-       printf("%d\n",pResult[i]);
+        pResult[ i ] = pTmp[ i ];
+       printf("%d\n",pTmp[i]);
     }
 }
 
@@ -71,7 +95,7 @@ void SeeWhatYouLearn(int seed )
     {
         printf("Fuck!They are even not equal!!!!!\n\n");
     }
-    int nNumOfQuestion = nNum / 2;
+    int nNumOfQuestion = ( nNum / 3 ) * 2;
     int ResultOfRand[nNumOfQuestion];
     int Wrong[nNumOfQuestion] , nWrong = 0 , i = 0 ;
     char cMyInput[ 64 ] = {'\0'};
@@ -118,7 +142,8 @@ int StrToInt( char *pStr )
 int main(int argc , char* argv[])
 {
     int seed = 2737;
-    if( argc > 0  )
+    char c = '0';
+    if( argc > 1  )
     {
         int i;
         for( i = 1 ; i < argc ; i++ )
@@ -126,15 +151,18 @@ int main(int argc , char* argv[])
             switch(argv[i][1])
             {
                 case 'a':
-                    ShowAll();
+                    c = '0';
+                    while( c != 'q' )
+                    {
+                        ShowAll( c - '0' );
+                        printf("Do you want to see other things?\n(input '1' to see QUESTION '2' to see ANSWERS or 'q' to quit...)");
+                        scanf("%c" , &c);
+                        fflush(stdin);      // always remember this or scanf will be affected.
+                    }
                     break;
                 case 'h':
                     ShowHelp();
                     break;
-                case 's':
-                    printf("Thanks for seed!\nYou are a good person\n\n");
-                    seed = StrToInt(argv[i+1]);
-                    SeeWhatYouLearn(seed);
                 default:
                     SeeWhatYouLearn(0);
                     break;
