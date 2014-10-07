@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
 #include "VimNote.h"
 
 int GetNumOfNote()
@@ -10,13 +9,24 @@ int GetNumOfNote()
     return nNumOfAnswer == nNumOfQuestion ? nNumOfQuestion : -1;
 }
 
-void GetRandow( int nNumOfRandom , int nUperBound , int *pResult )
+void ShowAll()
+{
+    int nNumOfRandom = sizeof( cQuestion ) / sizeof( cQuestion[0] );
+    int i;
+    for( i = 0 ; i < nNumOfRandom ; i++ )
+    {
+        printf("%-64s\t%s\n",cQuestion[i],cAnswer[i]);
+    }
+    
+}
+
+void GetRandow( int nNumOfRandom , int nUperBound , int *pResult ,int seed )
 {
     int i = 0;
     for( i = 0 ; i < nNumOfRandom ; i++ )
     {
         //made by myself
-       srand( i * 2737 );
+       srand( i * seed * nUperBound * seed );
        pResult[ i ] = rand() % nUperBound;
     }
 }
@@ -26,11 +36,17 @@ void SeeWhereYouWrong( int nWrongNum , int *pWhereYouWrong )
     if( nWrongNum )
     {
         printf("************************************************\n");
-        printf("You have wronged %d times!Fuck!\n" , nWrongNum);
+        printf("*                                              *\n");
+        printf("*              See What You Learn              *\n");
+        printf("*                                              *\n");
+        printf("************************************************\n\n");
+
+        printf("You have wronged %d times!Fuck!\n\n" , nWrongNum);
         int i = 0;
         for( i = 0 ; i < nWrongNum ; i++ )
         {
-            printf("%s\n%s\n\n" , cQuestion[ pWhereYouWrong[ i ] ] , cAnswer[ pWhereYouWrong[ i ] ] );
+            if( pWhereYouWrong[i] != -1 )
+                printf("%s\n%s\n\n" , cQuestion[ pWhereYouWrong[ i ] ] , cAnswer[ pWhereYouWrong[ i ] ] );
         }
     }
     else
@@ -48,35 +64,85 @@ int AnsCmp( char *str1 ,char *str2 )
     }
     return 1;
 }
-void SeeWhatYouLearn()
+void SeeWhatYouLearn(int seed )
 {
     int nNum = GetNumOfNote();
     if( nNum == -1 )
     {
-        printf("Fuck!They are even not equal!\n");
+        printf("Fuck!They are even not equal!!!!!\n\n");
     }
     int nNumOfQuestion = nNum / 2;
     int ResultOfRand[nNumOfQuestion];
-    int Wrong[nNumOfQuestion] , nWrong = 0 , i = 0;
+    int Wrong[nNumOfQuestion] , nWrong = 0 , i = 0 ;
     char cMyInput[ 64 ] = {'\0'};
 
-    GetRandow( nNumOfQuestion , nNum - 1 , ResultOfRand );
+    GetRandow( nNumOfQuestion , nNum - 1 , ResultOfRand , seed );
     for( i = 0 ; i < nNumOfQuestion ; i++ )
     {
         printf("%s\n" , cQuestion[ ResultOfRand[ i ] ]);
         scanf("%s",cMyInput);
         if( AnsCmp( cAnswer[ ResultOfRand[ i ] ] , cMyInput ) )
         {
-            Wrong[ i ] = ResultOfRand[ i ];
-            nWrong++;
+            Wrong[ nWrong++ ] = ResultOfRand[ i ];
         }
     }
-    SeeWhereYouWrong( nWrong , ResultOfRand );
+    SeeWhereYouWrong( nWrong , Wrong );
 }
 
-int main()
+void ShowHelp()
 {
-    int tmp[10];
-    SeeWhatYouLearn();
+    printf("learnvim [-a][-h][-s]:\n");
+    printf("-a:Show all quetions and answers.\n");
+    printf("-h:Show help as you can see.\n");
+    printf("-s num:Give seed to initniaze question liabrary!default is 2737\n");
+}
+
+int StrToInt( char *pStr )
+{
+    int nLength = 0;
+    char *pStrBak = pStr;
+    while( *pStr++ )
+        nLength++;
+    pStr = pStrBak;
+    int tmp = 0 , a = 1 , ans = 0;
+    while( nLength-- )
+    {
+        tmp = pStr[ nLength ] - '0';
+        tmp *= a;
+        ans += tmp;
+        a *= 10;
+    }
+    return ans;
+}
+
+int main(int argc , char* argv[])
+{
+    int seed = 2737;
+    if( argc > 0  )
+    {
+        int i;
+        for( i = 1 ; i < argc ; i++ )
+        {
+            switch(argv[i][1])
+            {
+                case 'a':
+                    ShowAll();
+                    break;
+                case 'h':
+                    ShowHelp();
+                    break;
+                case 's':
+                    printf("Thanks for seed!\nYou are a good person\n\n");
+                    seed = StrToInt(argv[i+1]);
+                    SeeWhatYouLearn(seed);
+                default:
+                    break;
+            }
+        }
+    }
+    else
+    {
+        SeeWhatYouLearn(seed);
+    }
     return 0;
 }
