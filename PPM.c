@@ -35,17 +35,19 @@ remember download XnView software to see result1. PPM»Ò¶ÈÎÄ¼þ
 unsigned char GR(int,int);
 unsigned char BL(int,int);
 
+
 unsigned char RD(int i,int j){
-return (char)(_sq(cos(atan2(j-512,i-512)/2))*255);
+float x=0,y=0;int k;for(k=0;k++<256;){float a=x*x-y*y+(i-768.0)/512;y=2*x*y+(j-512.0)/512;x=a;if(x*x+y*y>4)break;}return log(k)*47;
 }
 
 unsigned char GR(int i,int j){
-return (char)(_sq(cos(atan2(j-512,i-512)/2-2*acos(-1)/3))*255);
+float x=0,y=0;int k;for(k=0;k++<256;){float a=x*x-y*y+(i-768.0)/512;y=2*x*y+(j-512.0)/512;x=a;if(x*x+y*y>4)break;}return log(k)*47;
 }
 
 unsigned char BL(int i,int j){
-return (char)(_sq(cos(atan2(j-512,i-512)/2+2*acos(-1)/3))*255);
+float x=0,y=0;int k;for(k=0;k++<256;){float a=x*x-y*y+(i-768.0)/512;y=2*x*y+(j-512.0)/512;x=a;if(x*x+y*y>4)break;}return 128-log(k)*23;
 }
+
 void pixel_write(int,int);
 FILE *fp;
 
@@ -62,14 +64,61 @@ int main()
    return 0;
 }
 
+// to test rand's quality
 void pixel_write(int i, int j)
 {
    static unsigned char color[3];
    //color[0] = RD(i,j)&255;
    //color[1] = GR(i,j)&255;
    //color[2] = BL(i,j)&255;
-    color[0] = rand();
-    color[1] = rand();
-    color[2] = rand();
+   color[0] = i;
+   color[1] = i;
+   color[2] = i;
    fwrite(color, 1, 3, fp);
 }
+/*
+some my favoriteunsigned char RD(int i,int j){
+One:
+unsigned char RD(int i,int j){
+return (char)(_sq(cos(atan2(j-512,i-512)/2))*255);
+}
+
+unsigned char GR(int i,int j){
+return (char)(_sq(cos(atan2(j-512,i-512)/2-2*acos(-1)/3))*255);
+}
+
+unsigned char BL(int i,int j){
+return (char)(_sq(cos(atan2(j-512,i-512)/2+2*acos(-1)/3))*255);
+}
+float x=0,y=0;int k;for(k=0;k++<256;){float a=x*x-y*y+(i-768.0)/512;y=2*x*y+(j-512.0)/512;x=a;if(x*x+y*y>4)break;}return log(k)*47;
+}
+
+unsigned char GR(int i,int j){
+float x=0,y=0;int k;for(k=0;k++<256;){float a=x*x-y*y+(i-768.0)/512;y=2*x*y+(j-512.0)/512;x=a;if(x*x+y*y>4)break;}return log(k)*47;
+}
+
+unsigned char BL(int i,int j){
+float x=0,y=0;int k;for(k=0;k++<256;){float a=x*x-y*y+(i-768.0)/512;y=2*x*y+(j-512.0)/512;x=a;if(x*x+y*y>4)break;}return 128-log(k)*23;
+}
+
+Two:unsigned char RD(int i,int j){
+double a=0,b=0,c,d,n=0;
+while((c=a*a)+(d=b*b)<4&&n++<880)
+{b=2*a*b+j*8e-9-.645411;a=c-d+i*8e-9+.356888;}
+return 255*pow((n-80)/800,3.);
+}
+
+unsigned char GR(int i,int j){
+double a=0,b=0,c,d,n=0;
+while((c=a*a)+(d=b*b)<4&&n++<880)
+{b=2*a*b+j*8e-9-.645411;a=c-d+i*8e-9+.356888;}
+return 255*pow((n-80)/800,.7);
+}
+
+unsigned char BL(int i,int j){
+double a=0,b=0,c,d,n=0;
+while((c=a*a)+(d=b*b)<4&&n++<880)
+{b=2*a*b+j*8e-9-.645411;a=c-d+i*8e-9+.356888;}
+return 255*pow((n-80)/800,.5);
+}
+*/
