@@ -1,13 +1,19 @@
 set nocompatible
+set ignorecase
+set smartcase
 "make command show to see clearev
 set showcmd
 set nu
+" for solarized
 syntax enable
+set background=dark
+colorscheme solarized
+
 filetype plugin indent on
 filetype on
-colorscheme desert
 highlight StatusLine guifg=SlateBlue guibg=Yellow 
 set showmatch
+set history=1000
 set nobackup
 setlocal noswapfile
 set wildmenu
@@ -28,17 +34,29 @@ set shiftwidth=4
 "set tab when begin on line or paragraph
 set smarttab
 set expandtab
+"not show tab
 set nolist
 "get toolbar away
 set go=
+"insert '\n' automally and with whole word
+set wrap
+set linebreak
 
 "for hightlight current line
 set cursorline
-hi CursorLine cterm=NONE ctermbg=Yellow ctermfg=DarkGrey
-hi CursorColumn cterm=NONE ctermbg=Yellow ctermfg=DarkGrey
+hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=White
+hi CursorColumn cterm=NONE ctermbg=DarkRed ctermfg=White
 
 "my map
 let mapleader = ","
+"cd to the directory where current file is
+nmap <leader>cd :cd %:h<cr>
+"change command Y
+nmap Y y$
+"change to light background
+nmap <leader>l :set background=light<cr>
+nmap <leader>d :set background=dark<cr>
+
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <F7> :!gcc % -o def_by_me<cr>
