@@ -7,7 +7,7 @@ set nu
 " for solarized
 syntax enable
 set background=dark
-colorscheme solarized
+colorscheme desert
 
 filetype plugin indent on
 filetype on
@@ -44,8 +44,8 @@ set linebreak
 
 "for hightlight current line
 set cursorline
-hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=White
-hi CursorColumn cterm=NONE ctermbg=DarkRed ctermfg=White
+hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=Blue
+hi CursorColumn cterm=NONE ctermbg=DarkRed ctermfg=Blue
 
 "my map
 let mapleader = ","
