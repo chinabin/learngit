@@ -18,7 +18,7 @@ set background=dark
 colorscheme MountainDew
 "colorscheme molokai
 "设置状态栏的颜色
-highlight StatusLine guifg=SlateBlue guibg=Yellow 
+"highlight StatusLine guifg=SlateBlue guibg=Yellow 
 "高亮显示匹配的括号
 set showmatch
 "设置历史记录数目
@@ -63,16 +63,20 @@ set wrap
 set linebreak
 "设置状态栏的显示信息
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=%02.2B]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
+"通过使用: commands命令，告诉我们文件的哪一行被改变过 
+set report=0
+"在被分割的窗口间显示空白，便于阅读 
+set fillchars=vert:\ ,stl:\ ,stlnc:\ 
 
 "设置语言
-set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
-set termencoding=utf-8
-set encoding=utf-8
+"set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+"set termencoding=utf-8
+"set encoding=utf-8
 
 "高亮显示当前行
-"set cursorline
-"hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=White
-"hi CursorColumn cterm=NONE ctermbg=DarkRed ctermfg=White
+set cursorline
+hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=White
+hi CursorColumn cterm=NONE ctermbg=DarkRed ctermfg=White
 "同上目的一样，不然当只有一个文件的时候不能看到当前行高亮
 set laststatus=2
 
@@ -93,8 +97,15 @@ nmap <leader>d :set background=dark<cr>
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <F7> :!gcc % -o a.out<cr>
-nnoremap <F5> :!./a.out
+
+"C Compiler and Run
+map <F5> :call CompileRunGcc()<CR> 
+func! CompileRunGcc() 
+    exec "w" 
+    exec "!gcc % -o %<" 
+    exec "!./%<" 
+endfunc 
+
 "去掉方向键的功能
 nnoremap <UP> <NOP>
 nnoremap <DOWN> <NOP>
@@ -184,3 +195,6 @@ let g:ctrlp_map=',,'
 let g:ctrlp_cmd='CtrlP'
 let g:ctrlp_working_path_mode=0
 let g:ctrlp_by_filename = 1
+
+nnoremap <leader>tt :!kdiff3 % C:\Users\Nibnat\Desktop\xixi\_vimrc<cr>
+
