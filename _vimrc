@@ -141,7 +141,13 @@ filetype on
     "*                      Ctags                                       *
     "*                                                                  *
     "********************************************************************
-nnoremap <c-F7>  :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
+"nnoremap <c-F7>  :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<cr>
+map <F7> :call CompileRunCtags()<CR> 
+func! CompileRunCtags() 
+    exec "cd %:h"
+    exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q ." 
+endfunc 
+
 set tags=tags;
 
     "********************************************************************
