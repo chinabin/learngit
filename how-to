@@ -1,5 +1,14 @@
 this is a file to record my note about git.
 
+"配置用户名和邮箱
+git config --global user.name "yourname"
+git config --global user.email "youremail"
+
+"查看配置
+git config --list
+"生成密钥
+sh-keygen -t rsa -C "754136505@qq.com"
+
 1.how to push to git repository
 	a.git init on local directory
 	b.vim you code
