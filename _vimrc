@@ -64,6 +64,11 @@ set linebreak
 "设置状态栏的显示信息
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=%02.2B]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
 
+"设置语言
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+
 "高亮显示当前行
 "set cursorline
 "hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=White
