@@ -1,83 +1,87 @@
-"ÉèÖÃ²»¼æÈİĞÔ
+"è®¾ç½®ä¸å…¼å®¹æ€§
 set nocompatible
-"µ±ÎÄ¼şÔÚÍâ²¿±»ĞŞ¸ÄµÄÊ±ºò×Ô¶¯ÔØÈë
+"å½“æ–‡ä»¶åœ¨å¤–éƒ¨è¢«ä¿®æ”¹çš„æ—¶å€™è‡ªåŠ¨è½½å…¥
 set autoread
-"ÔÚ²éÕÒµÄÊ±ºòºöÂÔ´óĞ¡Ğ´
+"åœ¨æŸ¥æ‰¾çš„æ—¶å€™å¿½ç•¥å¤§å°å†™
 set ignorecase
-"Ö»ÄÜÆ¥Åä
+"åªèƒ½åŒ¹é…
 set smartcase
-"ÏÔÊ¾Ëù¼üÈëµÄÃüÁî
+"æ˜¾ç¤ºæ‰€é”®å…¥çš„å‘½ä»¤
 set showcmd
-"ÉèÖÃÎÄ¼şĞòÁĞºÅ
+"è®¾ç½®æ–‡ä»¶åºåˆ—å·
 set nu
-"ÎªÉ«²ÊÖ÷Ìâ solarized ËùĞèÒªµÄ
-"¿ªÆôÓï·¨¸ßÁÁ
+"ä¸ºè‰²å½©ä¸»é¢˜ solarized æ‰€éœ€è¦çš„
+"å¼€å¯è¯­æ³•é«˜äº®
 syntax enable
 set background=dark
 "colorscheme solarized
-colorscheme MountainDew
+colorscheme evening
+"colorscheme MountainDew
 "colorscheme molokai
-"ÉèÖÃ×´Ì¬À¸µÄÑÕÉ«
+"è®¾ç½®çŠ¶æ€æ çš„é¢œè‰²
 "highlight StatusLine guifg=SlateBlue guibg=Yellow 
-"¸ßÁÁÏÔÊ¾Æ¥ÅäµÄÀ¨ºÅ
+"é«˜äº®æ˜¾ç¤ºåŒ¹é…çš„æ‹¬å·
 set showmatch
-"ÉèÖÃÀúÊ·¼ÇÂ¼ÊıÄ¿
+"è®¾ç½®å†å²è®°å½•æ•°ç›®
 set history=1000
-"ÉèÖÃ²»ĞèÒª±¸·İÎÄ¼ş
+"è®¾ç½®ä¸éœ€è¦å¤‡ä»½æ–‡ä»¶
 set nobackup
 setlocal noswapfile
-"ÔÚÃüÁîÄ£Ê½ÏÂÊ¹ÓÃtab×Ô¶¯²¹È«µÄÊ±ºò£¬½«²¹È«ÄÚÈİÓÃ²Ëµ¥µÄĞÎÊ½ÏÔÊ¾³öÀ´
+"åœ¨å‘½ä»¤æ¨¡å¼ä¸‹ä½¿ç”¨tabè‡ªåŠ¨è¡¥å…¨çš„æ—¶å€™ï¼Œå°†è¡¥å…¨å†…å®¹ç”¨èœå•çš„å½¢å¼æ˜¾ç¤ºå‡ºæ¥
 set wildmenu
-"ÏÔÊ¾ÓÒÏÂ½ÇµÄ×´Ì¬À¸
+"æ˜¾ç¤ºå³ä¸‹è§’çš„çŠ¶æ€æ 
 set ruler
-"¹²Ïí¼ôÇĞ°å
+"å…±äº«å‰ªåˆ‡æ¿
 set clipboard+=unnamed
-"¸ßÁÁÏÔÊ¾ËÑË÷½á¹û
+"é«˜äº®æ˜¾ç¤ºæœç´¢ç»“æœ
 set hlsearch
-"ÊµÊ±ÏÔÊ¾ËÑË÷½á¹û
+"å®æ—¶æ˜¾ç¤ºæœç´¢ç»“æœ
 set incsearch
-"Ê¹µÃ¹â±êËùÔÚĞĞ×ÜÊÇÀëÆÁÄ»¶¥¶Ë»òÕßµÍ¶Ë5ĞĞ
+"ä½¿å¾—å…‰æ ‡æ‰€åœ¨è¡Œæ€»æ˜¯ç¦»å±å¹•é¡¶ç«¯æˆ–è€…ä½ç«¯5è¡Œ
 set scrolloff=5
-"¹â±ê²»ÉÁË¸
+"å…‰æ ‡ä¸é—ªçƒ
 set novisualbell
-"×Ô¶¯Æ¥Åä£¬Ö»ÄÜÆ¥Åä£¬CÓïÑÔ·ç¸ñµÄÆ¥Åä
+"è‡ªåŠ¨åŒ¹é…ï¼Œåªèƒ½åŒ¹é…ï¼ŒCè¯­è¨€é£æ ¼çš„åŒ¹é…
 set autoindent
 set smartindent
 set cindent
-"ÉèÖÃÏà¹ØËõ½ø
-"ÉèÖÃÒ»¸ötab¶ÔÓ¦4¸ö¿Õ¸ñ
+"è®¾ç½®ç›¸å…³ç¼©è¿›
+"è®¾ç½®ä¸€ä¸ªtabå¯¹åº”4ä¸ªç©ºæ ¼
 set tabstop=4
-"ÔÚ°´ÍË¸ñ¼üµÄÊ±ºòÈç¹ûÇ°ÃæÓĞËÄ¸ö¿Õ¸ñÔòÒ»ÆğÉ¾³ı
+"åœ¨æŒ‰é€€æ ¼é”®çš„æ—¶å€™å¦‚æœå‰é¢æœ‰å››ä¸ªç©ºæ ¼åˆ™ä¸€èµ·åˆ é™¤
 set softtabstop=4
-"ÖÇÄÜËõ½ø
+"æ™ºèƒ½ç¼©è¿›
 set shiftwidth=4
-"ÉèÖÃtab
+"è®¾ç½®tab
 set smarttab
 set expandtab
-"²»Òª½«tab·ûºÅÏÔÊ¾³öÀ´
+"ä¸è¦å°†tabç¬¦å·æ˜¾ç¤ºå‡ºæ¥
 set nolist
-"È¥µôtoolbar
+"å»æ‰toolbar
 set go=
-"µ±ÄãµÄÒ»¸öµ¥´ÊÊäÈëÎ´Íê³Éµ«ÊÇÒÑ¾­µ½´ïĞĞÎ²µÄÊ±ºò×Ô¶¯°ÑÄãµÄµ¥´ÊÍêÕûÏÔÊ¾µ½ĞĞÊ×
+"å½“ä½ çš„ä¸€ä¸ªå•è¯è¾“å…¥æœªå®Œæˆä½†æ˜¯å·²ç»åˆ°è¾¾è¡Œå°¾çš„æ—¶å€™è‡ªåŠ¨æŠŠä½ çš„å•è¯å®Œæ•´æ˜¾ç¤ºåˆ°è¡Œé¦–
 set wrap
 set linebreak
-"ÉèÖÃ×´Ì¬À¸µÄÏÔÊ¾ĞÅÏ¢
+"è®¾ç½®çŠ¶æ€æ çš„æ˜¾ç¤ºä¿¡æ¯
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=%02.2B]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
-"Í¨¹ıÊ¹ÓÃ: commandsÃüÁî£¬¸æËßÎÒÃÇÎÄ¼şµÄÄÄÒ»ĞĞ±»¸Ä±ä¹ı 
+"é€šè¿‡ä½¿ç”¨: commandså‘½ä»¤ï¼Œå‘Šè¯‰æˆ‘ä»¬æ–‡ä»¶çš„å“ªä¸€è¡Œè¢«æ”¹å˜è¿‡ 
 set report=0
-"ÔÚ±»·Ö¸îµÄ´°¿Ú¼äÏÔÊ¾¿Õ°×£¬±ãÓÚÔÄ¶Á 
+"åœ¨è¢«åˆ†å‰²çš„çª—å£é—´æ˜¾ç¤ºç©ºç™½ï¼Œä¾¿äºé˜…è¯» 
 set fillchars=vert:\ ,stl:\ ,stlnc:\ 
 
-"ÉèÖÃÓïÑÔ
-"set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
-"set termencoding=utf-8
-"set encoding=utf-8
+"è®¾ç½®è¯­è¨€
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+"set termencoding=gbk
+"set gfn=SimSun:h10
+set gfw=NSimsun:h12
 
-"¸ßÁÁÏÔÊ¾µ±Ç°ĞĞ
-set cursorline
-hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=White
-hi CursorColumn cterm=NONE ctermbg=DarkRed ctermfg=White
-"Í¬ÉÏÄ¿µÄÒ»Ñù£¬²»È»µ±Ö»ÓĞÒ»¸öÎÄ¼şµÄÊ±ºò²»ÄÜ¿´µ½µ±Ç°ĞĞ¸ßÁÁ
+"é«˜äº®æ˜¾ç¤ºå½“å‰è¡Œ
+"set cursorline
+"hi CursorLine cterm=NONE   ctermbg=DarkRed ctermfg=White
+"hi CursorColumn cterm=NONE ctermbg=DarkRed ctermfg=White
+"åŒä¸Šç›®çš„ä¸€æ ·ï¼Œä¸ç„¶å½“åªæœ‰ä¸€ä¸ªæ–‡ä»¶çš„æ—¶å€™ä¸èƒ½çœ‹åˆ°å½“å‰è¡Œé«˜äº®
 set laststatus=2
 
     "********************************************************************
@@ -87,9 +91,9 @@ set laststatus=2
     "********************************************************************
 "my map
 let mapleader = ","
-"½øÈëµ±Ç°´ò¿ªÎÄ¼şËùÔÚÄ¿Â¼
+"è¿›å…¥å½“å‰æ‰“å¼€æ–‡ä»¶æ‰€åœ¨ç›®å½•
 nmap <leader>cd :cd %:h<cr>
-"¸Ä±äYÃüÁî
+"æ”¹å˜Yå‘½ä»¤
 nnoremap Y y$
 "change to light background
 nmap <leader>l :set background=light<cr>
@@ -106,7 +110,7 @@ func! CompileRunGcc()
     exec "!./%<" 
 endfunc 
 
-"È¥µô·½Ïò¼üµÄ¹¦ÄÜ
+"å»æ‰æ–¹å‘é”®çš„åŠŸèƒ½
 nnoremap <UP> <NOP>
 nnoremap <DOWN> <NOP>
 nnoremap <LEFT> <NOP>
@@ -119,7 +123,7 @@ inoremap <RIGHT> <NOP>
 
 nnoremap <F4> :noh<cr>
 
-"µ±Ò»ĞĞÌ«³¤ÏÔÊ¾¶àĞĞµÄÊ±ºòÈÔÈ»ÔÚÂß¼­ÉÏ¿´×ö¶àĞĞÀ´ÒÆ¶¯
+"å½“ä¸€è¡Œå¤ªé•¿æ˜¾ç¤ºå¤šè¡Œçš„æ—¶å€™ä»ç„¶åœ¨é€»è¾‘ä¸Šçœ‹åšå¤šè¡Œæ¥ç§»åŠ¨
 map <A-UP> gk
 map <A-DOWN> gj
 
@@ -130,10 +134,10 @@ map <A-DOWN> gj
     "*                                                                  *
     "********************************************************************
 execute pathogen#infect()
-"ÔÊĞíÓÃÖ¸¶¨Óï·¨¸ßÁÁÅäÉ«·½°¸Ìæ»»Ä¬ÈÏ·½°¸
+"å…è®¸ç”¨æŒ‡å®šè¯­æ³•é«˜äº®é…è‰²æ–¹æ¡ˆæ›¿æ¢é»˜è®¤æ–¹æ¡ˆ
 syntax on
 filetype plugin indent on
-"¿ªÆôÎÄ¼şÀàĞÍÕì²â
+"å¼€å¯æ–‡ä»¶ç±»å‹ä¾¦æµ‹
 filetype on
 
     "********************************************************************
@@ -157,7 +161,7 @@ set tags=tags;
     "********************************************************************
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-let Tlist_Ctags_Cmd='C:\Users\Nibnat\ctags'
+let Tlist_Ctags_Cmd='/usr/bin/ctags'
 let Tlist_WinWidth=50
 let Tlist_Use_Right_Window=1
 "let Tlist_Close_On_Select=1
@@ -201,6 +205,3 @@ let g:ctrlp_map=',,'
 let g:ctrlp_cmd='CtrlP'
 let g:ctrlp_working_path_mode=0
 let g:ctrlp_by_filename = 1
-
-nnoremap <leader>tt :!kdiff3 % C:\Users\Nibnat\Desktop\xixi\_vimrc<cr>
-
