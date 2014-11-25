@@ -7,7 +7,7 @@ git config --global user.email "youremail"
 "查看配置
 git config --list
 "生成密钥
-sh-keygen -t rsa -C "754136505@qq.com"
+ssh-keygen -t rsa -C "754136505@qq.com"
 
 1.how to push to git repository
 	a.git init on local directory
@@ -15,7 +15,7 @@ sh-keygen -t rsa -C "754136505@qq.com"
 	c.git add the file you add or edit
 	d.git commit file in staged area
 	e.git remote add origin https://github.com/chinabin/learngit.git
-	f.git push -u origin master
+	f.git push -u origin master(make sure your SSH-key has added into GitHub)
 origin is the name of repository,master is your name of local repository
 with -u option,you can use command 'git push' to push code next time.
 
