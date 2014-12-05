@@ -1,9 +1,19 @@
 #include<stdio.h>
 #include<string.h>
 
-#define LEFT_LENGTH 18
-#define MIDDLE_LENGTH 30
-#define RIGHT_LENGTH 10
+// const variable for LEFT
+#define LEFT_LENGTH                     8
+#define DISTANCE_TO_LEFT                4
+#define NUM_BITS_LENGTH                 2
+// const variable for MIDDLE
+#define MIDDLE_LENGTH                   30
+#define DISTANCE_TO_MIDDLE              12
+// const variable for RIGHT
+#define RIGHT_LENGTH                    12
+#define DISTANCE_TO_RIGHT               2
+#define NUM_BITS_RANGE                  8
+
+#define NUM_BIT_NAME                    6
 
 void init_left( int val , int num , char (*left)[ LEFT_LENGTH ] )
 {
@@ -15,8 +25,8 @@ void init_left( int val , int num , char (*left)[ LEFT_LENGTH ] )
         if( i == special_line )
         {
             memset( left[ i ] , ' ' , LEFT_LENGTH );
-            sprintf( &left[ i ][ 0 ] + 4 , "%d" , val );
-            left[ i ][ 5 ] = ' ';
+            sprintf( &left[ i ][ 0 ] + DISTANCE_TO_LEFT , "%0*d" , NUM_BITS_LENGTH , val );
+            left[ i ][ DISTANCE_TO_LEFT + NUM_BITS_LENGTH ] = ' ';
         }
         else
         {
@@ -45,8 +55,8 @@ void init_middle( char *str , int num , char (*middle)[ MIDDLE_LENGTH ] )
             memset( middle[ i ] , ' ' , MIDDLE_LENGTH );
             middle[ i ][ 0 ] = '*';
             middle[ i ][ MIDDLE_LENGTH - 1 ] = '*';
-            sprintf( &middle[ i ][ 0 ] + 12 , "%s" , str );
-            middle[ i ][ 12 + length ] = ' ';
+            sprintf( &middle[ i ][ 0 ] + DISTANCE_TO_MIDDLE , "%s" , str );
+            middle[ i ][ DISTANCE_TO_MIDDLE + length ] = ' ';
         }
         else
         {
@@ -65,17 +75,17 @@ void init_right( int *arr , int num , char (*right)[RIGHT_LENGTH] )
 
     for( i = 0 ; i < num ; i++ )
     {
-        if( i == first_line   )
+        if( i == first_line )
         {
             memset( right[ i ] , ' ' , RIGHT_LENGTH );
-            sprintf( &right[ i ][ 0 ] + 2 , "%0*d" , 2 , arr[0] );
-            right[ i ][ 4 ] = ' ';
+            sprintf( &right[ i ][ 0 ] + DISTANCE_TO_RIGHT , "%0*d" , NUM_BITS_RANGE    , arr[ 0 ] );
+            right[ i ][ DISTANCE_TO_RIGHT + NUM_BITS_RANGE ] = ' ';
         }
         else if( i == last_line )
         {
             memset( right[ i ] , ' ' , RIGHT_LENGTH );
-            sprintf( &right[ i ][ 0 ] + 2 , "%0*d" , 2 , arr[ 1 ] );
-            right[ i ][ 4 ] = ' ';
+            sprintf( &right[ i ][ 0 ] + DISTANCE_TO_RIGHT , "%0*d" , NUM_BITS_RANGE   , arr[ 1 ] );
+            right[ i ][ DISTANCE_TO_RIGHT + NUM_BITS_RANGE  ] = ' ';
         }
         else
         {
@@ -85,7 +95,7 @@ void init_right( int *arr , int num , char (*right)[RIGHT_LENGTH] )
     }
 }
 
-void pri_elf( char (*str)[6] , int *arr_length , int *arr_range , int num )
+void pri_elf( char (*str)[NUM_BIT_NAME] , int *arr_length , int *arr_range , int num )
 {
     int i , ops = 0 , j;
     int height;
@@ -95,26 +105,21 @@ void pri_elf( char (*str)[6] , int *arr_length , int *arr_range , int num )
     for( i = 0 ; i < num ; i++ )
     {
         int tmp[ 2 ];
-        tmp[ 0 ] = arr_range[ 2 * i ]; 
-        tmp[ 1 ] = arr_range[ 2 * i + 1 ]; 
         height = arr_range[ 2 * i + 1 ] - arr_range[ 2 * i ] + 1;
         char left[ height ][ LEFT_LENGTH ] , middle[ height ][ MIDDLE_LENGTH ] , right[ height ][ RIGHT_LENGTH ];
+
         init_left( arr_length[ i ] , arr_length[ i ] , left );
-        // PrintArr( (char **)left , num );
         init_middle( str[ i ] , arr_length[ i ] , middle );
-        // PrintArr( (char **)middle , num );
+        tmp[ 0 ] = arr_range[ 2 * i ];
+        tmp[ 1 ] = arr_range[ 2 * i + 1 ];
         init_right( tmp , arr_length[ i ] , right );
-        // PrintArr( (char **)right , num );
 
         for( j = 0 ; j < height ; j++ )
         {
-            // sprintf( line , "%s" , left[ j ] );
             strncpy( line , left[ j ] , LEFT_LENGTH );
             ops += LEFT_LENGTH;
-            // sprintf( line + ops , "%s" , middle[ j ] );
             strncpy( line + ops , middle[ j ] , MIDDLE_LENGTH );
             ops += MIDDLE_LENGTH;
-            // sprintf( line + ops , "%s" , right[ j ] );
             strcpy( line + ops , right[ j ] );
 
             printf( "%s\n" , line );
@@ -123,13 +128,19 @@ void pri_elf( char (*str)[6] , int *arr_length , int *arr_range , int num )
     }
 }
 
+void fun( int num )
+{
+    char str[ 7 ][ NUM_BIT_NAME ] = { "Leve1" , "Leve2" , "Leve3" , "Leve4" , "Leve5" , "Leve6" , "Leve7" };
+    char left[ num  ][ LEFT_LENGTH ];
+    int length[ 7 ] = { 3 , 4 , 8 , 9 , 1 , 2 , 20 };              // 每个数字代表单个显示表的高度
+
+    // 每个显示表的上下范围，注意：下限减去上线加1必须等于相应的length项
+    int range[ 7 * 2 ] = { 125673 , 125675 , 125674 , 125677 , 125680 , 125687 , 125690 , 125698 , 123456 , 123456 , 123459 , 123460 , 123481 , 123500 };        
+    pri_elf( str , length , range , num );
+}
+
 int main()
 {
-    char str[ 4 ][ 6 ] = { "Leve1" , "Leve2" , "Leve3" , "Leve4" };
-    int num = 4;
-    char left[ 4 ][ LEFT_LENGTH ];
-    int length[ 4 ] = { 3 , 4 , 8 , 9 };
-    int range[ 8 ] = { 3 , 5 , 4 , 7 , 8 , 15 , 90 , 98 };
-    pri_elf( str , length , range , num );
+    fun( 7 );
     return 0;
 }
