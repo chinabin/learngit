@@ -130,7 +130,7 @@ void pri_elf( char (*str)[NUM_BIT_NAME] , int *arr_length , int *arr_range , int
 
 void fun( int num )
 {
-    char str[ 7 ][ NUM_BIT_NAME ] = { "Leve1" , "Leve2" , "Leve3" , "Leve4" , "Leve5" , "Leve6" , "Leve7" };
+    char str[ 7 ][ NUM_BIT_NAME ] = { "Leve1" , "Leve2" , "Leve3" , "e4" , "Lee5" , "Leve6" , "Le7" };
     char left[ num  ][ LEFT_LENGTH ];
     int length[ 7 ] = { 3 , 4 , 8 , 9 , 1 , 2 , 20 };              // 每个数字代表单个显示表的高度
 
