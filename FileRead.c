@@ -15,6 +15,11 @@ Elf32_Sym        *dynsym_ptr = NULL;
 Elf32_Sym *symtab_ptr = NULL;
 Elf32_Sym        *dynstr_ptr = NULL;
 struct stat elf_stat;
+int                shstrtab_off,shstrtab_len,shstrtab_num;
+char            *Real_strtab = NULL;
+char            *dynstr = NULL;
+char            *strtab_ptr = NULL;
+char            buffer[BUFFER];
 
 void elf_header(char *elf_file)
 {
@@ -39,14 +44,22 @@ void elf_header(char *elf_file)
     phdr = (Elf32_Phdr *)( (unsigned long)ehdr + ehdr->e_phoff );
     shdr = (Elf32_Shdr *)( (unsigned long)ehdr + ehdr->e_shoff );
 
-    Elf32_Shdr tmp;
-    int i =3;
-    while( i >= 0)
+    // get section string location
+    shstrtab = &shdr[ehdr->e_shstrndx];
+    // from section get real string table location
+    shstrtab_off = (unsigned int)shstrtab->sh_offset;
+    // get string table size
+    shstrtab_len = shstrtab->sh_size;
+    // endr is base address , and shstrtab_off is offset address
+    Real_strtab = (char *)( (unsigned long)ehdr + shstrtab_off );
+    memcpy(buffer,Real_strtab,shstrtab_len + 1);
+
+    int i = 0;
+    printf("[num]     name          from     to     size\n");
+    while( i < ehdr->e_shnum )
     {
-        memcpy(&tmp , shdr , 40);
-        printf("%s\n" , tmp.sh_name);
-        shdr++;
-        i--;
+        printf(" %2d%-10s%-24d%-33d%-40d\n" ,i , buffer + (shdr + i)->sh_name,(shdr+i)->sh_offset , (shdr+i)->sh_offset , (shdr+i)->sh_size );
+        i++;
     }
 }
 
