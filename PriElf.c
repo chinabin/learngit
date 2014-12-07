@@ -1,19 +1,4 @@
-#include<stdio.h>
-#include<string.h>
-
-// const variable for LEFT
-#define LEFT_LENGTH                     8
-#define DISTANCE_TO_LEFT                4
-#define NUM_BITS_LENGTH                 2
-// const variable for MIDDLE
-#define MIDDLE_LENGTH                   30
-#define DISTANCE_TO_MIDDLE              12
-// const variable for RIGHT
-#define RIGHT_LENGTH                    12
-#define DISTANCE_TO_RIGHT               2
-#define NUM_BITS_RANGE                  8
-
-#define NUM_BIT_NAME                    6
+#include"PriElf.h"
 
 void init_left( int val , int num , char (*left)[ LEFT_LENGTH ] )
 {
@@ -139,8 +124,51 @@ void fun( int num )
     pri_elf( str , length , range , num );
 }
 
-int main()
+void elf_header(char *elf_file)
 {
-    fun( 7 );
-    return 0;
+    Elf32_Ehdr *ehdr = NULL;
+    Elf32_Shdr *shdr = NULL;
+    Elf32_Shdr        *shstrtab = NULL;
+    struct stat elf_stat;
+    int                shstrtab_off,shstrtab_len,shstrtab_num;
+    char            *Real_strtab = NULL;
+    char            buffer[BUFFER];
+    int fd = open(elf_file,O_RDWR);
+
+    if( fd == -1 )
+    {
+        perror("elf_file");
+        return;
+    }
+    if( fstat(fd,&elf_stat) == -1 )
+    {
+        perror("fstat");
+        return;
+    }
+    ehdr = mmap(0, elf_stat.st_size, PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+    if(ehdr == MAP_FAILED)
+    {
+        perror("mmap ehdr");
+        return;
+    }
+
+    shdr = (Elf32_Shdr *)( (unsigned long)ehdr + ehdr->e_shoff );
+
+    // get section string location
+    shstrtab = &shdr[ehdr->e_shstrndx];
+    // from section get real string table location
+    shstrtab_off = (unsigned int)shstrtab->sh_offset;
+    // get string table size
+    shstrtab_len = shstrtab->sh_size;
+    // endr is base address , and shstrtab_off is offset address
+    Real_strtab = (char *)( (unsigned long)ehdr + shstrtab_off );
+    memcpy(buffer,Real_strtab,shstrtab_len + 1);
+
+    int i = 0;
+    while( i < ehdr->e_shnum )
+    {
+        printf(" %2d%-10s%-24d%-33d%-40d\n" ,i , buffer + (shdr + i)->sh_name,(shdr+i)->sh_offset , (shdr+i)->sh_offset , (shdr+i)->sh_size );
+        i++;
+    }
 }
+

@@ -2,14 +2,14 @@
     ELF Reader V 0.1.0 Show ELF Information
     by wzt 
 */
-#include stdio.h>
-#include string.h>
-#include stdlib.h>
-#include unistd.h>
-#include fcntl.h>
-#include elf.h>
-#include sys/stat.h>
-#include sys/mman.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <elf.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
 #define BUFFER    1024
 Elf32_Ehdr *ehdr = NULL;
 Elf32_Phdr *phdr = NULL;
@@ -124,16 +124,16 @@ void elf_phdr()
     int i;
     fprintf(stdout,"\n[+] ELF Program Header Table Info:\n\n");
     fprintf(stdout,"Type Offset VirtAddr PhysAddr FileSiz MemSiz Flg Align\r\n");
-    for(i = 0 ; i  ehdr->e_phnum ; i++){
+    for(i = 0 ; i < ehdr->e_phnum ; i++){
         fprintf(stdout,"0x%06x 0x%08x 0x%08x 0x%08x 0x%06x 0x%06x 0x%02x 0x%02x\r\n",
-                        phdr.p_type,
-                        phdr.p_offset,
-                        phdr.p_vaddr,
-                        phdr.p_paddr,
-                        phdr.p_filesz,
-                        phdr.p_memsz,
-                        phdr.p_flags,
-                        phdr.p_align);
+                        phdr->p_type,
+                        phdr->p_offset,
+                        phdr->p_vaddr,
+                        phdr->p_paddr,
+                        phdr->p_filesz,
+                        phdr->p_memsz,
+                        phdr->p_flags,
+                        phdr->p_align);
     }
     printf("\n");
     err:
@@ -155,19 +155,19 @@ void elf_shdr()
         fprintf(stdout,"\n[+] ELF Section Header Table Info:\n\n");
         fprintf(stdout,"[NR] Name     Type Flag Addr Off Size Link Info Ali Ent\n");
         shdr_len = ehdr->e_shoff;
-        for(i = 0 ; i  ehdr->e_shnum ; i++){
+        for(i = 0 ; i < ehdr->e_shnum ; i++){
             fprintf(stdout,"[%2d] %-15s %d 0x%02x 0x%08x 0x%06x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x\r\n",
                         i,
-                        buffer + shdr.sh_name,
-                        shdr.sh_type,
-                        shdr.sh_flags,
-                        shdr.sh_addr,
-                        shdr.sh_offset,
-                        shdr.sh_size,
-                        shdr.sh_link,
-                        shdr.sh_info,
-                        shdr.sh_addralign,
-                        shdr.sh_entsize);
+                        buffer + shdr->sh_name,
+                        shdr->sh_type,
+                        shdr->sh_flags,
+                        shdr->sh_addr,
+                        shdr->sh_offset,
+                        shdr->sh_size,
+                        shdr->sh_link,
+                        shdr->sh_info,
+                        shdr->sh_addralign,
+                        shdr->sh_entsize);
         }
     
         printf("\n");
@@ -188,26 +188,26 @@ void elf_symbols()
     int dynstr_off,dynstr_size;
     int i;
     unsigned int strtab_off,strtab_size;
-    for(i = 0 ; i  (int)ehdr->e_shnum ; i++){
-        if( strcmp(buffer + shdr.sh_name,".symtab") == 0 ){
-            symtab_off = (unsigned int)shdr.sh_offset;
-            symtab_num = (int )(shdr.sh_size / shdr.sh_entsize);
+    for(i = 0 ; i < (int)ehdr->e_shnum ; i++){
+        if( strcmp(buffer + shdr->sh_name,".symtab") == 0 ){
+            symtab_off = (unsigned int)shdr->sh_offset;
+            symtab_num = (int )(shdr->sh_size / shdr->sh_entsize);
             printf("[+] .symtab off : 0x%x num :%d\n",symtab_off,symtab_num);
         }
-        if( strcmp(buffer + shdr.sh_name,".strtab") == 0){
-            strtab_off = (unsigned int)shdr.sh_offset;
-            strtab_size = (unsigned int)shdr.sh_size;
+        if( strcmp(buffer + shdr->sh_name,".strtab") == 0){
+            strtab_off = (unsigned int)shdr->sh_offset;
+            strtab_size = (unsigned int)shdr->sh_size;
             printf("[+] .strtab off : 0x%x num : %d\n",strtab_off,strtab_size);
         }
-          if( strcmp(buffer + shdr.sh_name,".dynsym") == 0 ){
-            dynsym_off = shdr.sh_offset;
-            dynsym_size = shdr.sh_size;
-            dynsym_num = (int)(shdr.sh_size / shdr.sh_entsize);
+          if( strcmp(buffer + shdr->sh_name,".dynsym") == 0 ){
+            dynsym_off = shdr->sh_offset;
+            dynsym_size = shdr->sh_size;
+            dynsym_num = (int)(shdr->sh_size / shdr->sh_entsize);
             printf("[+] .dynsym Off: 0x%x num : %d\n",dynsym_off,dynsym_num);
         }        
-        if( strcmp(buffer + shdr.sh_name,".dynstr") == 0 ){
-            dynstr_off = (unsigned int)shdr.sh_offset;
-            dynstr_size = (unsigned int)shdr.sh_size;
+        if( strcmp(buffer + shdr->sh_name,".dynstr") == 0 ){
+            dynstr_off = (unsigned int)shdr->sh_offset;
+            dynstr_size = (unsigned int)shdr->sh_size;
             printf("[+] .dynstr Off: 0x%x size : %d\n",dynstr_off,dynstr_size);
         }
     }
@@ -216,21 +216,20 @@ void elf_symbols()
     memcpy(strtab_buffer,strtab_ptr,strtab_size + 1);
     symtab_ptr = (Elf32_Sym *)( (unsigned long)ehdr + symtab_off );
     fprintf(stdout,"[NR]        st_name         st_value st_size st_info     st_shndx\n");
-    for(i = 0; i symtab_num; i++){
+    for(i = 0; i < symtab_num; i++){
         fprintf(stdout,"%4d    %25s    0x%08x x%08x 0x%02x %4d\n",
                 i,
-                strtab_buffer + symtab_ptr.st_name,
-                symtab_ptr.st_value,
-                symtab_ptr.st_size,
-                symtab_ptr.st_info,
-                symtab_ptr.st_shndx);
+                strtab_buffer + symtab_ptr->st_name,
+                symtab_ptr->st_value,
+                symtab_ptr->st_size,
+                symtab_ptr->st_info,
+                symtab_ptr->st_shndx);
     }
 
     dynsym_ptr = (Elf32_Sym *)( (unsigned long)ehdr + dynsym_off );
     dynstr = (char *)( (unsigned long)ehdr + dynstr_off );
     
     memcpy(dynstr_buffer,dynstr,dynstr_size+1);
-    for(i = 0; i
     err:
     if (ehdr)
         munmap(ehdr, elf_stat.st_size);
@@ -239,7 +238,7 @@ void elf_symbols()
 }
 int main(int argc,char **argv)
 {
-    if( argc  3 ){
+    if( argc !=  3 ){
         usage(argv[0]);
     }
     if( !strcmp(argv[1],"-h") ){

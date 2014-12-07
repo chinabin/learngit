@@ -124,8 +124,72 @@ void fun( int num )
     pri_elf( str , length , range , num );
 }
 
-int main()
+    Elf32_Ehdr *ehdr = NULL;
+    Elf32_Shdr *shdr = NULL;
+
+void init( void );
+
+void elf_header(char *elf_file)
 {
-    fun( 7 );
-    return 0;
+    struct stat elf_stat;
+    int fd = open(elf_file,O_RDWR);
+
+    if( fd == -1 )
+    {
+        perror("elf_file");
+        return;
+    }
+    if( fstat(fd,&elf_stat) == -1 )
+    {
+        perror("fstat");
+        return;
+    }
+    ehdr = mmap(0, elf_stat.st_size, PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+    if(ehdr == MAP_FAILED)
+    {
+        perror("mmap ehdr");
+        return;
+    }
+
+    init();
+}
+
+void init( void )
+{
+    Elf32_Shdr        *shstrtab = NULL;
+    int                shstrtab_off,shstrtab_len,shstrtab_num;
+    char            *Real_strtab = NULL;
+    char            buffer[BUFFER];
+    int num = ehdr->e_shnum;
+    int i = 0;
+    char str[ num ][ NUM_BIT_NAME ]; 
+    int length[ num ]; 
+    int range[ num * 2 ]; 
+
+    shdr = (Elf32_Shdr *)( (unsigned long)ehdr + ehdr->e_shoff );
+
+    // get section string location
+    shstrtab = &shdr[ehdr->e_shstrndx];
+    // from section get real string table location
+    shstrtab_off = (unsigned int)shstrtab->sh_offset;
+    // get string table size
+    shstrtab_len = shstrtab->sh_size;
+    // endr is base address , and shstrtab_off is offset address
+    Real_strtab = (char *)( (unsigned long)ehdr + shstrtab_off );
+    memcpy(buffer,Real_strtab,shstrtab_len + 1);
+
+    while( i < num )
+    {
+       strcpy( str[i] , buffer + (shdr + i)->sh_name  );
+       length[ i ] =  (shdr+i)->sh_size;
+       range[ 2 * i ] = (shdr+i)->sh_offset;
+       range[ 2 * i + 1 ] = (shdr+i)->sh_offset + 3;
+       // strcpy( str[i] , buffer + (shdr + i)->sh_name  );
+       // length[ i ] =  (shdr+i)->sh_size;
+       // range[ 2 * i ] = (shdr+i)->sh_offset;
+       // range[ 2 * i + 1 ] = (shdr+i)->sh_offset + 3;
+       printf("%d  %s   %d   %d\n" , i , buffer + (shdr + i)->sh_name , (shdr+i)->sh_size , (shdr+i)->sh_offset );
+        i++;
+    }
+    pri_elf( str , length , range , num );
 }
