@@ -1,5 +1,6 @@
 *.exe
 *.o
+ff
 a.out
 vimrc*
 _vimrc.orig

@@ -124,15 +124,14 @@ void fun( int num )
     pri_elf( str , length , range , num );
 }
 
-void elf_header(char *elf_file)
-{
     Elf32_Ehdr *ehdr = NULL;
     Elf32_Shdr *shdr = NULL;
-    Elf32_Shdr        *shstrtab = NULL;
+
+void init( void );
+
+void elf_header(char *elf_file)
+{
     struct stat elf_stat;
-    int                shstrtab_off,shstrtab_len,shstrtab_num;
-    char            *Real_strtab = NULL;
-    char            buffer[BUFFER];
     int fd = open(elf_file,O_RDWR);
 
     if( fd == -1 )
@@ -152,6 +151,21 @@ void elf_header(char *elf_file)
         return;
     }
 
+    init();
+}
+
+void init( void )
+{
+    Elf32_Shdr        *shstrtab = NULL;
+    int                shstrtab_off,shstrtab_len,shstrtab_num;
+    char            *Real_strtab = NULL;
+    char            buffer[BUFFER];
+    int num = ehdr->e_shnum;
+    int i = 0;
+    char str[ num ][ NUM_BIT_NAME ]; 
+    int length[ num ]; 
+    int range[ num * 2 ]; 
+
     shdr = (Elf32_Shdr *)( (unsigned long)ehdr + ehdr->e_shoff );
 
     // get section string location
@@ -164,11 +178,24 @@ void elf_header(char *elf_file)
     Real_strtab = (char *)( (unsigned long)ehdr + shstrtab_off );
     memcpy(buffer,Real_strtab,shstrtab_len + 1);
 
-    int i = 0;
-    while( i < ehdr->e_shnum )
+    while( i < num )
     {
-        printf(" %2d%-10s%-24d%-33d%-40d\n" ,i , buffer + (shdr + i)->sh_name,(shdr+i)->sh_offset , (shdr+i)->sh_offset , (shdr+i)->sh_size );
+       strcpy( str[i] , buffer + (shdr + i)->sh_name  );
+
+       // *********** you should change the data size begin
+       // length[ i ] =  (shdr+i)->sh_size;
+       length[ i ] = i % 5 + 5;
+       range[ 2 * i ] = (shdr+i)->sh_offset;
+       range[ 2 * i + 1 ] = (shdr+i)->sh_offset + length[i] - 1;
+       // *********** you should change the data size end
+       
+       // strcpy( str[i] , buffer + (shdr + i)->sh_name  );
+       // length[ i ] =  (shdr+i)->sh_size;
+       // range[ 2 * i ] = (shdr+i)->sh_offset;
+       // range[ 2 * i + 1 ] = (shdr+i)->sh_offset + 3;
+       // printf("%d  %s   %d   %d\n" , i , buffer + (shdr + i)->sh_name , (shdr+i)->sh_size , (shdr+i)->sh_offset );
+       // printf("%d  %s   %d   %d\n" , i , str[i] , length[i] , range[2*i]);
         i++;
     }
+    pri_elf( str , length , range , num );
 }
-

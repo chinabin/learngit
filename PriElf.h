@@ -20,6 +20,10 @@
 
 #define NUM_BIT_NAME                    20
 
+char            buffer[BUFFER];
+Elf32_Ehdr *ehdr = NULL;
+Elf32_Shdr *shdr = NULL;
+
 void elf_header(char *elf_file);
 void init_left( int val , int num , char (*left)[ LEFT_LENGTH ] );
 void init_middle( char *str , int num , char (*middle)[ MIDDLE_LENGTH ] );

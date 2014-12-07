@@ -124,10 +124,9 @@ void fun( int num )
     pri_elf( str , length , range , num );
 }
 
-    Elf32_Ehdr *ehdr = NULL;
-    Elf32_Shdr *shdr = NULL;
 
 void init( void );
+void Graph();
 
 void elf_header(char *elf_file)
 {
@@ -145,13 +144,15 @@ void elf_header(char *elf_file)
         return;
     }
     ehdr = mmap(0, elf_stat.st_size, PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+    shdr = (Elf32_Shdr *)( (unsigned long)ehdr + ehdr->e_shoff );
     if(ehdr == MAP_FAILED)
     {
         perror("mmap ehdr");
         return;
     }
 
-    init();
+    // init();
+    Graph();
 }
 
 void init( void )
@@ -159,7 +160,6 @@ void init( void )
     Elf32_Shdr        *shstrtab = NULL;
     int                shstrtab_off,shstrtab_len,shstrtab_num;
     char            *Real_strtab = NULL;
-    char            buffer[BUFFER];
     int num = ehdr->e_shnum;
     int i = 0;
     char str[ num ][ NUM_BIT_NAME ]; 
@@ -198,4 +198,20 @@ void init( void )
         i++;
     }
     pri_elf( str , length , range , num );
+}
+
+void Graph()
+{
+    // 10
+    // char str[] = "**********";
+    char str[] = "****************************************************************************************************";
+    int i = 0;
+    int tmp;
+    while( i < ehdr->e_shnum  )
+    {
+       tmp  = (shdr+i)->sh_size;
+       tmp %= 100;
+       printf("%d:  %s\n", i , str + 100 - tmp);
+       i++;
+    }
 }
