@@ -181,14 +181,20 @@ void init( void )
     while( i < num )
     {
        strcpy( str[i] , buffer + (shdr + i)->sh_name  );
-       length[ i ] =  (shdr+i)->sh_size;
+
+       // *********** you should change the data size begin
+       // length[ i ] =  (shdr+i)->sh_size;
+       length[ i ] = i % 5 + 5;
        range[ 2 * i ] = (shdr+i)->sh_offset;
-       range[ 2 * i + 1 ] = (shdr+i)->sh_offset + 3;
+       range[ 2 * i + 1 ] = (shdr+i)->sh_offset + length[i] - 1;
+       // *********** you should change the data size end
+       
        // strcpy( str[i] , buffer + (shdr + i)->sh_name  );
        // length[ i ] =  (shdr+i)->sh_size;
        // range[ 2 * i ] = (shdr+i)->sh_offset;
        // range[ 2 * i + 1 ] = (shdr+i)->sh_offset + 3;
-       printf("%d  %s   %d   %d\n" , i , buffer + (shdr + i)->sh_name , (shdr+i)->sh_size , (shdr+i)->sh_offset );
+       // printf("%d  %s   %d   %d\n" , i , buffer + (shdr + i)->sh_name , (shdr+i)->sh_size , (shdr+i)->sh_offset );
+       // printf("%d  %s   %d   %d\n" , i , str[i] , length[i] , range[2*i]);
         i++;
     }
     pri_elf( str , length , range , num );
