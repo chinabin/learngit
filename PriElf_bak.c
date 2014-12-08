@@ -80,8 +80,10 @@ void init_right( int *arr , int num , char (*right)[RIGHT_LENGTH] )
     }
 }
 
-void pri_elf( char (*str)[NUM_BIT_NAME] , int *arr_length , int *arr_range , int num )
+// print elf
+void pri_elf( char (*str)[NUM_BIT_NAME] , int *arr_length , int *arr_range )
 {
+
     int i , ops = 0 , j;
     int height;
     int width = LEFT_LENGTH + MIDDLE_LENGTH + RIGHT_LENGTH;  
@@ -113,19 +115,143 @@ void pri_elf( char (*str)[NUM_BIT_NAME] , int *arr_length , int *arr_range , int
     }
 }
 
-void fun( int num )
+// get elf from file
+int elf_header(char *elf_file)
 {
-    char str[ 7 ][ NUM_BIT_NAME ] = { "Leve1" , "Leve2" , "Leve3" , "e4" , "Lee5" , "Leve6" , "Le7" };
-    char left[ num  ][ LEFT_LENGTH ];
-    int length[ 7 ] = { 3 , 4 , 8 , 9 , 1 , 2 , 20 };              // 每个数字代表单个显示表的高度
+    struct stat elf_stat;
+    int fd = open(elf_file,O_RDWR);
 
-    // 每个显示表的上下范围，注意：下限减去上线加1必须等于相应的length项
-    int range[ 7 * 2 ] = { 125673 , 125675 , 125674 , 125677 , 125680 , 125687 , 125690 , 125698 , 123456 , 123456 , 123459 , 123460 , 123481 , 123500 };        
-    pri_elf( str , length , range , num );
+    if( fd == -1 )
+    {
+        perror("elf_file");
+        return -1;
+    }
+    if( fstat(fd,&elf_stat) == -1 )
+    {
+        perror("fstat");
+        return -1;
+    }
+    ehdr = mmap(0, elf_stat.st_size, PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+    if(ehdr == MAP_FAILED)
+    {
+        perror("mmap ehdr");
+        return -1;
+    }
+
 }
 
-int main()
+int init( char *elf_file )
 {
-    fun( 7 );
-    return 0;
+    int ret = -1;
+
+    ret = elf_header( elf_file  );
+    num = ehdr->e_shnum;
+    if( ret == -1 )
+    {
+        printf("can't get %s eelf file\n" , elf_file );
+        return -1;
+    }
+    shdr = (Elf32_Shdr *)( (unsigned long)ehdr + ehdr->e_shoff );
+}
+
+void getthing( char (*str)[NUM_BIT_NAME] , int *length , int *range )
+{
+    Elf32_Shdr        *shstrtab = NULL;
+    int                shstrtab_off,shstrtab_len,shstrtab_num;
+    char            *Real_strtab = NULL;
+    int i = 0;
+
+    // get section string location
+    shstrtab = &shdr[ehdr->e_shstrndx];
+    // from section get real string table location
+    shstrtab_off = (unsigned int)shstrtab->sh_offset;
+    // get string table size
+    shstrtab_len = shstrtab->sh_size;
+    // endr is base address , and shstrtab_off is offset address
+    Real_strtab = (char *)( (unsigned long)ehdr + shstrtab_off );
+    memcpy(buffer,Real_strtab,shstrtab_len + 1);
+
+    while( i < num )
+    {
+       strcpy( str[i] , buffer + (shdr + i)->sh_name  );
+
+       // *********** you should change the data size begin
+       // length[ i ] =  (shdr+i)->sh_size;
+       length[ i ] = i % 5 + 5;
+       range[ 2 * i ] = (shdr+i)->sh_offset;
+       range[ 2 * i + 1 ] = (shdr+i)->sh_offset + length[i] - 1;
+       // *********** you should change the data size end
+       
+       // strcpy( str[i] , buffer + (shdr + i)->sh_name  );
+       // length[ i ] =  (shdr+i)->sh_size;
+       // range[ 2 * i ] = (shdr+i)->sh_offset;
+       // range[ 2 * i + 1 ] = (shdr+i)->sh_offset + 3;
+       // printf("%d  %s   %d   %d\n" , i , buffer + (shdr + i)->sh_name , (shdr+i)->sh_size , (shdr+i)->sh_offset );
+       // printf("%d  %s   %d   %d\n" , i , str[i] , length[i] , range[2*i]);
+        i++;
+    }
+}
+
+int showelf(void)
+{
+    char str[ num ][ NUM_BIT_NAME ]; 
+    int length[ num ]; 
+    int range[ num * 2 ]; 
+
+    if( num == 0)
+    {
+        printf("please call init()\n");
+        return -1;
+    }
+    else
+    {
+        getthing( str , length , range );
+        pri_elf( str , length , range );
+    }
+}
+
+// only real size == 0 printf NULL
+// tmp != length[i] , for tmp is real size and length[i] is desigened by me
+int Graph( void )
+{
+    // 10
+    // char str[] = "**********";
+    char name[ num ][ NUM_BIT_NAME ]; 
+    int length[ num ]; 
+    int size;
+    int total = 0;
+    int range[ num * 2 ]; 
+
+    char str[] = "****************************************************************************************************";
+    int i = 0;
+    int tmp;
+    if( num == 0)
+    {
+        printf("please call init()\n");
+        return -1;
+    }
+    getthing( name , length , range );
+    for( i = 0 ; i < num ; i++ )
+        total += length[ i ];
+
+    i = 0;
+    while( i < ehdr->e_shnum  )
+    {
+       tmp  = (shdr+i)->sh_size;
+       size = tmp;
+       tmp = tmp / total;
+
+       if( size == 0 )
+           printf("%0*d  %4d   %15s :  NULL\n", 2 , i , size , name[ i ] );
+       else if( tmp == 0 )
+           printf("%0*d  %4d   %15s :  *\n", 2 , i , size , name[ i ] );
+       else
+           printf("%0*d  %4d   %15s :  %s\n", 2 , i , size  ,  name[ i ] , str + 100 - tmp);
+       i++;
+    }
+}
+
+void help()
+{
+    printf("Pri_elf [-pg]\n");
 }
